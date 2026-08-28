@@ -16,5 +16,5 @@ class TaskLog(Base):
     id = Column(Integer, primary_key=True, index=True)
     task_id = Column(Integer)
     execution_time = Column(DateTime, default=datetime.datetime.utcnow)
-    status = Column(String)    # "Success" o "Error"
-    output = Column(String)    # El print del script
+    status = Column(String)
+    output = Column(String)    
