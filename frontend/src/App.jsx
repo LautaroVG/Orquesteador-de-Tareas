@@ -12,7 +12,7 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [loadingLogs, setLoadingLogs] = useState(false);
 
-  // --- FUNCIÓN DE CARGA ---
+  
   const fetchTasks = useCallback(async () => {
     try {
       const res = await axios.get(`${API_BASE}/tasks`);
@@ -22,34 +22,34 @@ function App() {
     }
   }, []);
 
-  // --- CONTROL DE EFECTOS ---
+ 
   useEffect(() => {
-    let isMounted = true; // Banderita de seguridad
+    let isMounted = true; 
 
     const initFetch = async () => {
-      // Solo actualiza si el componente sigue vivo en pantalla
+     
       if (isMounted) {
         await fetchTasks();
       }
     };
 
-    initFetch(); // Llamada inicial
+    initFetch(); 
     
-    // Configura el intervalo de 30 segundos
+    
     const interval = setInterval(initFetch, 30000);
 
-    // Cleanup: se ejecuta cuando el componente se destruye
+    
     return () => {
       isMounted = false; 
       clearInterval(interval);
     };
   }, [fetchTasks]);
 
-  // --- ACCIONES ---
+  
   async function createTask(e) {
     e.preventDefault();
     try {
-      // Se envía un objeto JSON puro, el estándar de la industria
+     
       const payload = {
         name: formData.name,
         cron: formData.cron,
@@ -65,7 +65,7 @@ function App() {
       alert("¡Tarea creada exitosamente!");
     } catch (err) {
       console.error("Error detallado:", err.response || err);
-      // Extraemos el error limpio de FastAPI si falla la validación Pydantic
+      
       const mensaje = err.response?.data?.detail || err.message;
       const errorFinal = Array.isArray(mensaje) ? JSON.stringify(mensaje) : mensaje;
       alert(`Error al crear: ${errorFinal}`);
@@ -172,7 +172,7 @@ function App() {
         </div>
       </main>
 
-      {/* MODAL SIMPLIFICADO */}
+      
       {showModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity">
           <div className="bg-white rounded-[2rem] w-full max-w-lg p-8 shadow-2xl">
@@ -185,7 +185,7 @@ function App() {
             <div className="space-y-2 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
               {logs.length > 0 ? logs.map(log => (
                 <div key={log.id} className="flex justify-between items-center p-3 bg-zinc-50 border border-zinc-100 rounded-xl text-xs">
-                  {/* Se formatea la fecha si viene como string */}
+                  
                   <span className="font-bold text-zinc-500">
                     {new Date(log.execution_time).toLocaleString()}
                   </span>
